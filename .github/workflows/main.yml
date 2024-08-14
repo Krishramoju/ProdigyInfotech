@@ -46,46 +46,8 @@ if __name__ == "__main__":
 
 
 
-import requests  
-from bs4 import BeautifulSoup  
-import pandas as pd  
 
-# URL of the e-commerce website (replace with the actual URL)  
-url = 'https://example.com/products'  
 
-# Send a GET request to the website  
-response = requests.get(url)  
-
-# Parse the HTML content  
-soup = BeautifulSoup(response.text, 'html.parser')  
-
-# Lists to store the scraped data  
-product_names = []  
-product_prices = []  
-product_ratings = []  
-
-# Find the product elements (update the selectors based on the website's structure)  
-for product in soup.find_all('div', class_='product'):  
-    name = product.find('h2', class_='product-name').text  
-    price = product.find('span', class_='product-price').text  
-    rating = product.find('span', class_='product-rating').text  
-    
-    product_names.append(name)  
-    product_prices.append(price)  
-    product_ratings.append(rating)  
-
-# Create a DataFrame  
-data = {  
-    'Name': product_names,  
-    'Price': product_prices,  
-    'Rating': product_ratings  
-}  
-df = pd.DataFrame(data)  
-
-# Save to CSV  
-df.to_csv('products.csv', index=False)  
-
-print("Data has been scraped and saved to products.csv")
 
 
 import random
@@ -121,101 +83,6 @@ number_guessing_game()
 
 
 
-import json
-
-# File to store contacts
-CONTACTS_FILE = "contacts.json"
-
-# Load contacts from file
-def load_contacts():
-    try:
-        with open(CONTACTS_FILE, "r") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return []
-
-
-# Save contacts to file
-def save_contacts(contacts):
-    with open(CONTACTS_FILE, "w") as file:
-        json.dump(contacts, file)
-
-# Add a new contact
-def add_contact(contacts):
-    name = input("Enter contact name: ")
-    phone = input("Enter contact phone number: ")
-    email = input("Enter contact email address: ")
-    contacts.append({"name": name, "phone": phone, "email": email})
-    save_contacts(contacts)
-    print("Contact added successfully.")
-
-# View all contacts
-def view_contacts(contacts):
-    if not contacts:
-        print("No contacts available.")
-        return
-    for contact in contacts:
-        print(f"Name: {contact['name']}, Phone: {contact['phone']}, Email: {contact['email']}")
-
-# Edit an existing contact
-def edit_contact(contacts):
-    view_contacts(contacts)
-    try:
-        index = int(input("Enter the contact number to edit: ")) - 1
-        if 0 <= index < len(contacts):
-            contact = contacts[index]
-            contact['name'] = input(f"Enter new name (current: {contact['name']}): ") 
-            contact['phone'] = input(f"Enter new phone (current: {contact['phone']}): ") 
-            contact['email'] = input(f"Enter new email (current: {contact['email']}): ") 
-            save_contacts(contacts)
-            print("Contact updated successfully.")
-        else:
-            print("Invalid contact number.")
-    except ValueError:
-        print("Invalid input. Please enter a valid number.")
-
-# Delete a contact
-def delete_contact(contacts):
-    view_contacts(contacts)
-    try:
-        index = int(input("Enter the contact number to delete: ")) - 1
-        if 0 <= index < len(contacts):
-            contacts.pop(index)
-            save_contacts(contacts)
-            print("Contact deleted successfully.")
-        else:
-            print("Invalid contact number.")
-    except ValueError:
-        print("Invalid input. Please enter a valid number.")
-
-# Main menu
-def main():
-    contacts = load_contacts()
-
-    while True:
-        print("\nContact Manager")
-        print("1. Add Contact")
-        print("2. View Contacts")
-        print("3. Edit Contact")
-        print("4. Delete Contact")
-        print("5. Exit")
-
-        choice = input("Enter your choice: ")
-        if choice == '1':
-            add_contact(contacts)
-        elif choice == '2':
-            view_contacts(contacts)
-        elif choice == '3':
-            edit_contact(contacts)
-        elif choice == '4':
-            delete_contact(contacts)
-        elif choice == '5':
-            break
-        else:
-            print("Invalid choice. Please try again.")
-
-if __name__ == "__main__":
-    main()
 
 
 def print_board(board):
